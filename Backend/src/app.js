@@ -7,18 +7,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (
-        !origin ||
-        allowedOrigins.includes(origin) ||
-        origin.endsWith(".netlify.app")
-      ) {
-        callback(null, true);
-      } else {
-        console.error(" Blocked by CORS:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   })
 );
