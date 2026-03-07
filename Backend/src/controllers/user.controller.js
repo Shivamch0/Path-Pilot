@@ -30,6 +30,9 @@ const registerUser = asyncHandler (async (req , res) => {
         throw new ApiError(400 , "Something went wrong while creating your account...")
     }
 
+    const accessToken = await user.generateAccessToken()
+    const refreshToken = await user.generateRefreshToken()
+
     const options = {
         httpOnly : true,
         sameSite : "None",
@@ -37,8 +40,9 @@ const registerUser = asyncHandler (async (req , res) => {
     }
 
     return res.status(200)
+            .cookie("accessToken" , accessToken , options)
+            .cookie("refreshToken" , refreshToken , options)
             .json(new ApiResponse(200 , createdUser , "User Created Successfully..."))
-
 
 });
 
